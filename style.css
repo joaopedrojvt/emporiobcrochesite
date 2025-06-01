@@ -266,6 +266,8 @@ section h2, section h3 {
     padding-bottom: 1rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+    /* Adicionado para rolagem com "snap" */
+    scroll-snap-type: x mandatory;
 }
 
 /* Estilo para cada item da galeria */
@@ -283,6 +285,8 @@ section h2, section h3 {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     flex-shrink: 0;
     width: 17.5rem;
+    /* Adicionado para rolagem com "snap" */
+    scroll-snap-align: start;
 }
 
 .gallery-item:hover {
@@ -496,12 +500,14 @@ footer {
     }
 
     .modern-header .header-main-area {
-        padding-bottom: 1rem; /* Menos padding para mobile */
+        flex-direction: column-reverse; /* Adicionado: Inverte a ordem para visits-display vir antes de brand-info */
+        justify-content: center; /* Centraliza o conteúdo verticalmente */
+        padding-bottom: 0.5rem; /* Ajustado: Menos padding para mobile */
     }
 
     .modern-header .brand-info {
         text-align: center;
-        margin-bottom: 1rem; /* Espaço abaixo do texto da marca */
+        margin-bottom: 0.5rem; /* Ajustado: Espaço abaixo do texto da marca */
     }
 
     .modern-header .brand-name {
@@ -516,7 +522,8 @@ footer {
     .visits-display {
         position: static; /* Volta para o fluxo normal em mobile */
         align-items: center;
-        margin-top: 1rem; /* Espaço acima do contador */
+        margin-top: 0; /* Ajustado: Remove a margem superior que tinha antes */
+        margin-bottom: 1rem; /* Adicionado: Espaço abaixo do contador */
         margin-right: 0;
     }
 
@@ -546,6 +553,17 @@ footer {
     .whatsapp-btn {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
+    }
+
+    /* Otimização da Galeria para mobile */
+    .gallery-grid {
+        padding-left: 1.5rem; /* Ajustado: Maior padding para mostrar parte do próximo item */
+        padding-right: 1.5rem; /* Mantido para simetria */
+    }
+
+    .gallery-item {
+        width: calc(100vw - 3rem - 1.5625rem); /* Adicionado: Ajusta a largura para caber 1 item + gap + parte do próximo */
+        height: auto; /* Garante que a altura se ajuste ao conteúdo */
     }
 
     .gallery-item img {
@@ -599,5 +617,20 @@ footer {
 
     .visits-display {
         align-items: flex-end;
+    }
+
+    /* Ajustes para a galeria em tablets */
+    .gallery-grid {
+        justify-content: center; /* Centraliza os itens se houver espaço */
+        padding-left: 1.25rem; /* Mantém o padding original */
+        padding-right: 1.25rem;
+    }
+    .gallery-item {
+        width: 17.5rem; /* Mantém a largura original para tablets */
+    }
+
+    /* Ajuste para grid de parceiros em tablets */
+    .partners-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Pode ter 2-3 colunas dependendo do espaço */
     }
 }
