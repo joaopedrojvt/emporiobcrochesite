@@ -119,10 +119,11 @@ body {
 }
 
 .visits-label {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: var(--text-medium);
-}
+        font-size: 0.7rem; /* Reduz um pouco o tamanho da fonte */
+        background-color: rgba(255,255,255,0.8); /* Fundo semi-transparente */
+        padding: 0.1rem 0.3rem;
+        border-radius: var(--border-radius-small);
+    }
 
 .counter-digits {
     display: flex;
@@ -135,10 +136,10 @@ body {
 .digit-box {
     background-color: white;
     color: var(--primary-color);
-    padding: 0.3rem 0.4rem;
+    padding: 0.15rem 0.25rem;
     border-radius: var(--border-radius-small);
     font-family: 'Open Sans', monospace;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: bold;
     min-width: 1em;
     text-align: center;
@@ -520,11 +521,12 @@ footer {
     }
 
     .visits-display {
-        position: static; /* Volta para o fluxo normal em mobile */
-        align-items: center;
-        margin-top: 0; /* Ajustado: Remove a margem superior que tinha antes */
-        margin-bottom: 1rem; /* Adicionado: Espaço abaixo do contador */
-        margin-right: 0;
+        position: absolute; /* Mantém como absolute para posicionar acima do conteúdo */
+        top: 0.5rem; /* Ajustado: Reduzi a distância do topo */
+        right: 0.5rem; /* Ajustado: Reduzi a distância da direita */
+        align-items: flex-end;
+        margin-bottom: 0; /* Remove qualquer margem inferior */
+        z-index: 10; /* Garante que fique acima de tudo */
     }
 
     .digit-box {
