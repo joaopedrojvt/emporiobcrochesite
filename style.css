@@ -8,8 +8,9 @@
 :root {
     /* Definição de tamanhos de fonte base em rem para facilitar a escalabilidade */
     font-size: 16px; /* Base 1rem = 16px. Ajuste aqui para mudar o tamanho base do texto globalmente. */
-    --primary-color: #6a0572;
-    --secondary-color: #f4c4f3;
+    --primary-color: #6a0572; /* Roxo principal */
+    --secondary-color: #0e0d0e; /* Preto/Cinza escuro */
+    --accent-color: #f7a83b; /* Uma cor de destaque */
     --whatsapp-color: #25d366;
     --whatsapp-hover-color: #128c7e;
     --text-dark: #333;
@@ -17,8 +18,8 @@
     --text-light: #666;
     --bg-light-transparent: rgba(255, 255, 255, 0.9);
     --shadow-light: 0 2px 5px rgba(0,0,0,0.1);
-    --shadow-medium: 0 4px 8px rgba(0,0,0,0.1);
-    --shadow-strong: 0 8px 15px rgba(0,0,0,0.2);
+    --shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+    --shadow-strong: 0 8px 15px rgba(0,0,0,0.25);
     --border-radius-small: 10px;
     --border-radius-medium: 15px;
     --border-radius-large: 20px;
@@ -29,54 +30,147 @@ body {
     font-family: 'Open Sans', sans-serif;
     line-height: 1.6;
     color: var(--text-dark);
-    /* Usando cores do tema para o gradiente */
     background: linear-gradient(to right, var(--secondary-color), var(--secondary-color));
-    min-height: 100vh; /* Garante que o body ocupa a altura total da viewport */
-    display: flex; /* Para centralizar o conteúdo verticalmente se for o caso */
-    flex-direction: column; /* Conteúdo em coluna para o rodapé ficar no final */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
-    max-width: 1000px; /* Largura máxima, mas flexível */
-    width: 90%; /* Ocupa 90% da largura disponível em telas menores */
+    max-width: 1000px;
+    width: 90%;
     margin: 0 auto;
-    padding: 1.25rem; /* 20px / 16px = 1.25rem */
+    padding: 1.25rem;
     text-align: center;
 }
 
-/* Cabeçalho */
-header {
-    background: var(--bg-light-transparent);
-    padding: 1.25rem 0; /* 20px / 16px = 1.25rem */
-    border-bottom-left-radius: var(--border-radius-large);
-    border-bottom-right-radius: var(--border-radius-large);
+/* Novo estilo para o cabeçalho moderno */
+.modern-header {
+    background-color: #f8f8f8; /* Fundo quase branco */
+    padding: 2rem 0; /* Espaçamento vertical inicial */
+    border-bottom: 1px solid #eee; /* Linha sutil na parte inferior */
     box-shadow: var(--shadow-light);
+    position: relative; /* Para posicionamento dos elementos internos */
+    overflow: hidden; /* Garante que elementos filhos não transbordem bordas arredondadas */
+    /* Adiciona um gradiente sutil para as "ondas" no fundo */
+    background-image:
+        url('images/header1.png'), /* Sua imagem de fundo aqui! */
+        linear-gradient(135deg, rgba(230, 200, 250, 0.2) 0%, rgba(255, 255, 255, 0) 50%, rgba(230, 200, 250, 0.2) 100%);
+    background-size:
+        cover, /* Para a imagem se ajustar */
+        200% 200%; /* Para o gradiente */
+    background-position: center bottom, 0% 50%; /* Posição para a imagem e o gradiente */
+    background-repeat: no-repeat, no-repeat; /* Para a imagem e o gradiente */
+    animation: gradientShift 10s ease infinite alternate; /* Animação só para o gradiente */
+    min-height: 180px; /* Garante uma altura mínima para o cabeçalho, mesmo com pouco conteúdo */
 }
 
-.header-content {
-    /* Usando Flexbox para alinhar o conteúdo do cabeçalho */
+@keyframes gradientShift {
+    0% { background-position: center bottom, 0% 50%; }
+    100% { background-position: center bottom, 100% 50%; }
+}
+
+.modern-header .header-main-area {
+    /* Usamos flexbox para centralizar e posicionar o conteúdo principal */
     display: flex;
-    flex-direction: column; /* Itens em coluna */
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Empilha os itens verticalmente */
+    justify-content: flex-end; /* Alinha o conteúdo (brand-info) na parte inferior do cabeçalho */
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+    height: 100%; /* Faz com que o flexbox ocupe 100% da altura do cabeçalho */
+    position: absolute; /* Posiciona o container principal de forma absoluta para preencher o cabeçalho */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 1.5rem; /* Adiciona um padding na parte inferior do conteúdo principal para "descolar" um pouco da borda inferior do cabeçalho */
 }
 
-header h1 {
+.modern-header .brand-info {
+    text-align: center; /* Centraliza o texto "Empório B Crochê" e o slogan dentro desta div. */
+    max-width: 600px; /* Limita a largura para o texto não esticar demais */
+    margin: 0; /* Remove margens padrão que poderiam empurrar o elemento */
+}
+
+.modern-header .brand-name {
     font-family: 'Playfair Display', serif;
     color: var(--primary-color);
-    margin-bottom: 0.3125rem; /* 5px / 16px = 0.3125rem */
-    font-size: clamp(2.5rem, 8vw, 3rem); /* Tamanho responsivo: min 2.5rem, ideal 8% da largura da viewport, max 3rem */
+    font-size: clamp(2.2rem, 7vw, 3rem);
+    margin-bottom: 0.2rem;
+    line-height: 1.2;
 }
 
-header p {
+.modern-header .brand-slogan {
     color: var(--text-medium);
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Tamanho responsivo */
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-top: 0;
+    font-weight: 400;
 }
+
+/* Estilos para o contador de visitas */
+.visits-display {
+    position: absolute; /* Posição absoluta para fixar no canto */
+    top: 1rem;
+    right: 1.25rem; /* Alinhado com o padding do container */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+    z-index: 2; /* Garante que fique acima de outros elementos */
+}
+
+.visits-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-medium);
+}
+
+.counter-digits {
+    display: flex;
+    gap: 0.2rem;
+    box-shadow: var(--shadow-light);
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+}
+
+.digit-box {
+    background-color: white;
+    color: var(--primary-color);
+    padding: 0.3rem 0.4rem;
+    border-radius: var(--border-radius-small);
+    font-family: 'Open Sans', monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    min-width: 1em;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Estilo para imagem de destaque no cabeçalho (opcional) */
+.modern-header .header-visual {
+    flex-shrink: 0; /* Impede que a imagem encolha */
+    /* Se precisar de mais controle sobre a posição da imagem, pode usar position absolute aqui também */
+    position: absolute; /* Permite posicionar a imagem sem afetar o fluxo do texto */
+    bottom: 0;
+    left: 1.25rem; /* Ajuste conforme necessário */
+    max-width: 180px; /* Tamanho da imagem de destaque */
+    height: auto;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-medium);
+    z-index: 1;
+}
+
+.modern-header .header-visual img {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove espaço extra abaixo da imagem */
+    border-radius: var(--border-radius-medium);
+}
+
 
 /* Seções gerais */
 section {
-    padding: 3.75rem 0; /* 60px / 16px = 3.75rem */
-    margin-bottom: 1.875rem; /* 30px / 16px = 1.875rem */
+    padding: 3.75rem 0;
+    margin-bottom: 1.875rem;
     background: var(--bg-light-transparent);
     border-radius: var(--border-radius-medium);
     box-shadow: var(--shadow-medium);
@@ -85,8 +179,8 @@ section {
 section h2, section h3 {
     font-family: 'Playfair Display', serif;
     color: var(--primary-color);
-    margin-bottom: 1.25rem; /* 20px / 16px = 1.25rem */
-    font-size: clamp(2rem, 6vw, 2.5rem); /* Tamanho responsivo */
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 6vw, 2.5rem);
 }
 
 /* Animação de Fade In e Leve Escala para títulos */
@@ -111,13 +205,13 @@ section h2, section h3 {
 /* Botões */
 .btn {
     display: inline-block;
-    padding: 0.75rem 1.5625rem; /* 12px 25px */
-    margin: 0.625rem; /* 10px */
+    padding: 0.75rem 1.5625rem;
+    margin: 0.625rem;
     border-radius: var(--border-radius-button);
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 1rem; /* Tamanho base para botões */
+    font-size: 1rem;
 }
 
 .primary-btn {
@@ -127,8 +221,8 @@ section h2, section h3 {
 }
 
 .primary-btn:hover {
-    background-color: #8c0792; /* Cor um pouco mais escura que a primary-color */
-    transform: translateY(-0.125rem); /* 2px */
+    background-color: #8c0792;
+    transform: translateY(-0.125rem);
 }
 
 .secondary-btn {
@@ -147,8 +241,8 @@ section h2, section h3 {
     background-color: var(--whatsapp-color);
     color: white;
     border: none;
-    padding: 0.9375rem 1.875rem; /* 15px 30px */
-    font-size: 1.125rem; /* 18px */
+    padding: 0.9375rem 1.875rem;
+    font-size: 1.125rem;
 }
 
 .whatsapp-btn:hover {
@@ -157,85 +251,78 @@ section h2, section h3 {
 }
 
 .small-btn {
-    padding: 0.5rem 0.9375rem; /* 8px 15px */
-    font-size: 0.875rem; /* 14px */
+    padding: 0.5rem 0.9375rem;
+    font-size: 0.875rem;
 }
 
 /* Galeria de cursos - CONFIGURAÇÃO PARA ROLAGEM HORIZONTAL */
 .gallery-grid {
-    display: flex; /* Mude para flexbox */
-    flex-wrap: nowrap; /* Impede que os itens quebrem para a linha de baixo */
-    overflow-x: auto; /* Adiciona a barra de rolagem horizontal se o conteúdo for maior que o contêiner */
-    -webkit-overflow-scrolling: touch; /* Melhora o "scroll" no iOS */
-    gap: 1.5625rem; /* 25px, espaçamento entre os itens */
-    margin-top: 2.5rem; /* 40px */
-    padding-bottom: 1rem; /* Adiciona um pequeno padding para a barra de rolagem não "colar" no rodapé em mobile */
-    padding-left: 1.25rem; /* 20px, para começar um pouco afastado da borda esquerda */
-    padding-right: 1.25rem; /* 20px, para ter espaço na borda direita ao rolar */
-
-    /* Importante: para que o conteúdo não se "esprema" no container pai. */
-    /* Removido o max-width do .container para esta seção específica para permitir a rolagem fluida */
-    /* O container pai (div.container) já tem um max-width, mas o gallery-grid precisa sair dele para a rolagem */
-    /* Para isso, precisamos que a div.container que envolve o gallery-grid também não tenha overflow escondido */
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1.5625rem;
+    margin-top: 2.5rem;
+    padding-bottom: 1rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
 }
 
 /* Estilo para cada item da galeria */
 .gallery-item {
     background-color: white;
-    border-radius: var(--border-radius-small); /* Usei small (10px) para consistência */
+    border-radius: var(--border-radius-small);
     box-shadow: var(--shadow-light);
-    padding-bottom: 0.9375rem; /* 15px, mantido para o conteúdo abaixo da imagem/vídeo */
+    padding-bottom: 0.9375rem;
     text-align: left;
-    overflow: hidden; /* Garante que o conteúdo dentro do item não vaze */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    
-    /* Configuração para a rolagem horizontal */
-    flex-shrink: 0; /* Impede que os itens encolham abaixo da largura mínima */
-    width: 17.5rem; /* 280px. Defina uma largura fixa para cada item */
+    flex-shrink: 0;
+    width: 17.5rem;
 }
 
 .gallery-item:hover {
-    transform: translateY(-0.3125rem); /* 5px */
+    transform: translateY(-0.3125rem);
     box-shadow: var(--shadow-strong);
 }
 
 .gallery-item img {
     width: 100%;
-    height: 12.5rem; /* 200px. Usando altura fixa mas com object-fit */
-    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    height: 12.5rem;
+    object-fit: cover;
     border-top-left-radius: var(--border-radius-small);
     border-top-right-radius: var(--border-radius-small);
-    margin-bottom: 0; /* Removido para tirar a "targa branca" abaixo da imagem */
+    margin-bottom: 0;
 }
 
 .gallery-item h4 {
     color: var(--primary-color);
-    margin: 0.9375rem 0.9375rem 0.3125rem; /* 15px top, 15px sides, 5px bottom */
-    font-size: 1.1rem; /* Ajuste sutil */
-    line-height: 1.3; /* Melhor legibilidade para títulos */
+    margin: 0.9375rem 0.9375rem 0.3125rem;
+    font-size: 1.1rem;
+    line-height: 1.3;
 }
 
 .gallery-item p {
     color: var(--text-light);
-    font-size: 0.875rem; /* 14px */
-    margin: 0 0.9375rem 0.9375rem; /* 0 15px 15px */
-    flex-grow: 1; /* Faz o parágrafo ocupar o espaço restante, empurrando o conteúdo para baixo */
+    font-size: 0.875rem;
+    margin: 0 0.9375rem 0.9375rem;
+    flex-grow: 1;
 }
 
 /* Estilos para vídeos responsivos dentro dos gallery-items */
 .gallery-item .video-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* Para manter a proporção 16:9 */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     border-top-left-radius: var(--border-radius-small);
     border-top-right-radius: var(--border-radius-small);
-    margin-bottom: 0; /* Removido para consistência com as imagens */
+    margin-bottom: 0;
 }
 
 .gallery-item .video-container iframe {
@@ -244,7 +331,7 @@ section h2, section h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    border-top-left-radius: var(--border-radius-small); /* Arredonda as bordas do vídeo */
+    border-top-left-radius: var(--border-radius-small);
     border-top-right-radius: var(--border-radius-small);
 }
 
@@ -253,8 +340,8 @@ section h2, section h3 {
 footer {
     background: #333;
     color: white;
-    padding: 1.25rem 0; /* 20px */
-    margin-top: auto; /* Empurra o rodapé para o final da página */
+    padding: 1.25rem 0;
+    margin-top: auto;
     border-top-left-radius: var(--border-radius-large);
     border-top-right-radius: var(--border-radius-large);
 }
@@ -264,13 +351,13 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem; /* 10px */
+    gap: 0.625rem;
 }
 
 .social-links a {
-    color: var(--secondary-color);
+    color: white;
     text-decoration: none;
-    margin: 0 0.625rem; /* 10px */
+    margin: 0 0.625rem;
     font-size: 1rem;
 }
 
@@ -278,47 +365,172 @@ footer {
     text-decoration: underline;
 }
 
+
 /* Opcional: Estilo para a barra de rolagem (WebKit - Chrome, Safari) */
 .gallery-grid::-webkit-scrollbar {
-    height: 0.5rem; /* 8px - altura da barra de rolagem */
+    height: 0.5rem;
 }
 
 .gallery-grid::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Cor do fundo da trilha da barra */
-    border-radius: 0.25rem; /* Borda arredondada da trilha */
+    background: #f1f1f1;
+    border-radius: 0.25rem;
 }
 
 .gallery-grid::-webkit-scrollbar-thumb {
-    background: var(--primary-color); /* Cor do "thumb" (o elemento que você arrasta) */
-    border-radius: 0.25rem; /* Borda arredondada do thumb */
+    background: var(--primary-color);
+    border-radius: 0.25rem;
 }
 
 .gallery-grid::-webkit-scrollbar-thumb:hover {
-    background: #8c0792; /* Cor ao passar o mouse */
+    background: #8c0792;
 }
 
+/* Seção de Anunciantes & Parceiros */
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.875rem;
+    margin-top: 2.5rem;
+    justify-items: center;
+    align-items: start; /* Alinha os itens ao topo para que o conteúdo não seja esticado */
+}
+
+/* O PRÓPRIO ITEM DO PARCEIRO */
+.partner-item {
+    background-color: white;
+    border-radius: var(--border-radius-small);
+    box-shadow: var(--shadow-light);
+    padding: 1.25rem; /* Padding interno para a caixa */
+    text-align: center;
+    display: flex; /* Transforma em flexbox */
+    flex-direction: column; /* Empilha o conteúdo verticalmente */
+    justify-content: space-between; /* Empurra o botão para baixo e o conteúdo para cima */
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 100%;
+    max-width: 200px; /* Garante que os itens não fiquem muito largos */
+    height: auto; /* Permite que a altura se ajuste ao conteúdo */
+    min-height: 200px; /* Garante uma altura mínima para uniformidade visual */
+}
+
+.partner-item:hover {
+    transform: translateY(-0.3125rem);
+    box-shadow: var(--shadow-strong);
+}
+
+/* O LINK DA IMAGEM DO PARCEIRO */
+.partner-item .partner-logo-link {
+    text-decoration: none; /* Remove o sublinhado padrão do link */
+    color: var(--text-dark); /* Mantém a cor padrão do texto */
+    display: flex; /* Transforma em flexbox para alinhar imagem */
+    flex-direction: column; /* Empilha a imagem */
+    align-items: center; /* Centraliza a imagem */
+    flex-grow: 1; /* Permite que ocupe o espaço disponível */
+    margin-bottom: 0.8rem; /* Espaço entre a imagem e os botões */
+    width: 100%; /* Ocupa a largura total do item */
+}
+
+.partner-item .partner-logo-link img {
+    max-width: 80%; /* Ajusta o tamanho da imagem */
+    height: auto;
+    margin-bottom: 0.625rem;
+    border-radius: var(--border-radius-small);
+}
+
+/* O BOTÃO "SITE" PERSONALIZADO */
+.partner-site-btn {
+    background-color: var(--primary-color); /* Usando a cor roxa principal */
+    color: white;
+    border: none;
+    width: 90%; /* Ocupa quase toda a largura do item do parceiro */
+    max-width: 150px; /* Limita a largura máxima do botão */
+    display: block; /* Garante que ocupe sua própria linha */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    margin-bottom: 0.5rem; /* Espaço entre o botão do Site e o do Instagram */
+    margin-left: auto; /* Centraliza o botão */
+    margin-right: auto; /* Centraliza o botão */
+}
+
+.partner-site-btn:hover {
+    background-color: #8c0792; /* Tom mais escuro no hover, como o primary-btn */
+    transform: translateY(-0.125rem);
+}
+
+/* O BOTÃO DO INSTAGRAM */
+.partner-instagram-btn {
+    background-color: #E1306C; /* Cor padrão do Instagram */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem; /* Usa os paddings e fontes do small-btn */
+    font-size: 0.875rem; /* Tamanho da fonte do small-btn */
+    border-radius: var(--border-radius-button);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 90%; /* Ocupa quase toda a largura do item do parceiro */
+    max-width: 150px; /* Limita a largura máxima do botão */
+    display: block; /* Garante que ocupe sua própria linha e que `width` funcione */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    margin-top: 0; /* Ajuste para não ter margem superior desnecessária */
+    margin-left: auto; /* Centraliza o botão */
+    margin-right: auto; /* Centraliza o botão */
+}
+
+.partner-instagram-btn:hover {
+    background-color: #C13584; /* Tom mais escuro no hover */
+    transform: translateY(-0.125rem);
+}
 
 /* Media Queries para Responsividade Avançada */
 
 /* Ajustes para telas muito pequenas (celulares em modo retrato) */
 @media (max-width: 480px) {
     .container {
-        width: 95%; /* Um pouco mais de largura em telas muito pequenas */
-        padding: 1rem; /* 16px */
+        width: 95%;
+        padding: 1rem;
     }
 
-    /* Removido o padding-left/right daqui e movido para .gallery-grid globalmente */
-
-    header h1 {
-        font-size: clamp(2rem, 10vw, 2.5rem); /* Ajusta ainda mais para telas pequenas */
+    .modern-header {
+        padding: 1.5rem 0;
+        min-height: 150px; /* Altura mínima para mobile */
     }
 
-    header p {
-        font-size: clamp(0.85rem, 3vw, 1rem);
+    .modern-header .header-main-area {
+        padding-bottom: 1rem; /* Menos padding para mobile */
+    }
+
+    .modern-header .brand-info {
+        text-align: center;
+        margin-bottom: 1rem; /* Espaço abaixo do texto da marca */
+    }
+
+    .modern-header .brand-name {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        margin-bottom: 0.1rem;
+    }
+
+    .modern-header .brand-slogan {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .visits-display {
+        position: static; /* Volta para o fluxo normal em mobile */
+        align-items: center;
+        margin-top: 1rem; /* Espaço acima do contador */
+        margin-right: 0;
+    }
+
+    .digit-box {
+        font-size: 0.9rem; /* Levemente menor para mobile */
+        padding: 0.2rem 0.3rem;
+    }
+
+    .modern-header .header-visual {
+        display: none; /* Esconde a imagem de destaque no cabeçalho em mobile para economizar espaço */
     }
 
     section {
-        padding: 2.5rem 0; /* Menos padding em seções */
+        padding: 2.5rem 0;
         margin-bottom: 1rem;
     }
 
@@ -335,15 +547,9 @@ footer {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
     }
-    
-    /* Regras de grid foram removidas, pois agora é flex com rolagem horizontal */
-    /* .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-    } */
 
     .gallery-item img {
-        height: 10rem; /* Altura da imagem um pouco menor em celulares */
+        height: 10rem;
     }
 
     .gallery-item h4 {
@@ -353,6 +559,24 @@ footer {
     .gallery-item p {
         font-size: 0.85rem;
     }
+
+    /* Ajuste para grid de parceiros em telas pequenas */
+    .partners-grid {
+        grid-template-columns: 1fr; /* Em telas muito pequenas, 1 coluna */
+        gap: 1.25rem;
+    }
+
+    .partner-item {
+        max-width: 250px; /* Permite que o item ocupe mais largura em mobile */
+        margin: 0 auto; /* Centraliza os itens em mobile */
+    }
+
+    .partner-site-btn,
+    .partner-instagram-btn {
+        width: 85%;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }
 
 /* Ajustes para tablets e telas médias */
@@ -361,19 +585,19 @@ footer {
         width: 90%;
     }
 
-    /* Regras de grid foram removidas, pois agora é flex com rolagem horizontal */
-    /* .gallery-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    } */
-
-    header h1 {
-        font-size: clamp(2.2rem, 7vw, 2.8rem);
+    .modern-header {
+        padding: 2rem 0;
     }
-}
 
-/* Ajustes para telas maiores que 768px (desktops) */
-@media (min-width: 769px) {
-    /* O layout padrão de rolagem horizontal já funciona bem aqui. */
-    /* Se quiser, pode reintroduzir um layout de grid para telas maiores, mas com rolagem não faz sentido. */
-    /* O ideal é manter a rolagem horizontal para quando há muitos itens, mesmo em desktop, para uma experiência consistente. */
+    .modern-header .brand-name {
+        font-size: clamp(2rem, 7vw, 2.8rem);
+    }
+
+    .modern-header .brand-slogan {
+        font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    }
+
+    .visits-display {
+        align-items: flex-end;
+    }
 }
