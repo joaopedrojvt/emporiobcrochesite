@@ -7,7 +7,7 @@ const firebaseConfig = {
   storageBucket: "emporiobcroche-counter.firebasestorage.app",
   messagingSenderId: "467297511268",
   appId: "1:467297511268:web:9532ec95c2fc6e6a07bc71"
-  measurementId: "G-C2WMW9RVDV"
+  
 };
 
 // Inicialize o Firebase
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }).catch((error) => {
     console.error("Erro ao atualizar contador:", error);
     // Fallback: usa localStorage se o Firebase falhar
-    const localVisits = parseInt(localStorage.getItem('site_visits') || 0;
+    
     updateCounterDisplay(localVisits + 1);
     localStorage.setItem('site_visits', localVisits + 1);
   });
