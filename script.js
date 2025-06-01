@@ -1,48 +1,58 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const counterDigitsContainer = document.getElementById('counter-digits-container');
-    const digitBoxes = counterDigitsContainer ? counterDigitsContainer.querySelectorAll('.digit-box') : [];
+// Configuração do Firebase (você precisará criar um projeto no Firebase)
+const firebaseConfig = {
+  apiKey: "AIzaSyCYjXSrvqJ33H79O3MHgVtOp8AB8lUuHpM",
+  authDomain: "emporiobcroche-counter.firebaseapp.com",
+  databaseURL: "https://emporiobcroche-counter-default-rtdb.firebaseio.com",
+  projectId: "emporiobcroche-counter",
+  storageBucket: "emporiobcroche-counter.firebasestorage.app",
+  messagingSenderId: "467297511268",
+  appId: "1:467297511268:web:9532ec95c2fc6e6a07bc71"
+  measurementId: "G-C2WMW9RVDV"
+};
 
-    try {
-        // 1. Tenta obter a contagem GLOBAL da API
-        const globalResponse = await fetch('https://api.countapi.xyz/hit/emporiobcroche/visits');
-        const globalData = await globalResponse.json();
-        const globalVisits = globalData.value;
+// Inicialize o Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-        // 2. Atualiza a contagem LOCAL para exibição mais rápida em futuras visitas
-        const localVisits = localStorage.getItem('site_visits') || 0;
-        localStorage.setItem('site_visits', globalVisits);
+document.addEventListener('DOMContentLoaded', () => {
+  const counterDigitsContainer = document.getElementById('counter-digits-container');
+  const digitBoxes = counterDigitsContainer.querySelectorAll('.digit-box');
 
-        // 3. Usa o maior valor entre global e local (para casos de falha na API)
-        const visitsToShow = Math.max(globalVisits, parseInt(localVisits, 10));
-        updateCounterDisplay(visitsToShow);
+  // Referência para o contador no banco de dados
+  const visitsRef = database.ref('visits');
 
-    } catch (error) {
-        console.error('Falha ao acessar a API, usando localStorage:', error);
-        
-        // Fallback: usa apenas localStorage se a API falhar
-        let visits = localStorage.getItem('site_visits');
-        visits = visits ? parseInt(visits, 10) + 1 : 1;
-        localStorage.setItem('site_visits', visits);
-        updateCounterDisplay(visits);
-    }
-
-    function updateCounterDisplay(visits) {
-        const formattedVisits = String(visits).padStart(6, '0');
-        
-        if (digitBoxes.length === formattedVisits.length) {
-            digitBoxes.forEach((box, i) => {
-                box.textContent = formattedVisits[i];
-            });
-        } else if (counterDigitsContainer) {
-            counterDigitsContainer.textContent = formattedVisits;
-        }
-    }
-
-    // Animação para títulos (mantido do seu código original)
-    const animatedHeadings = document.querySelectorAll('.animated-heading');
-    animatedHeadings.forEach(heading => {
-        heading.style.animation = 'none';
-        heading.offsetHeight; /* trigger reflow */
-        heading.style.animation = null;
+  // Incrementa o contador no servidor
+  visitsRef.transaction((currentCount) => {
+    return (currentCount || 0) + 1;
+  }).then(() => {
+    // Atualiza a exibição com o valor mais recente
+    visitsRef.on('value', (snapshot) => {
+      const visits = snapshot.val();
+      updateCounterDisplay(visits);
+      
+      // Armazena localmente para carregamento mais rápido na próxima visita
+      localStorage.setItem('site_visits', visits);
     });
+  }).catch((error) => {
+    console.error("Erro ao atualizar contador:", error);
+    // Fallback: usa localStorage se o Firebase falhar
+    const localVisits = parseInt(localStorage.getItem('site_visits') || 0;
+    updateCounterDisplay(localVisits + 1);
+    localStorage.setItem('site_visits', localVisits + 1);
+  });
+
+  function updateCounterDisplay(visits) {
+    const formattedVisits = String(visits).padStart(6, '0');
+    digitBoxes.forEach((box, index) => {
+      box.textContent = formattedVisits[index];
+    });
+  }
+
+  // Animação para títulos (mantido do seu código original)
+  const animatedHeadings = document.querySelectorAll('.animated-heading');
+  animatedHeadings.forEach(heading => {
+    heading.style.animation = 'none';
+    heading.offsetHeight;
+    heading.style.animation = null;
+  });
 });
